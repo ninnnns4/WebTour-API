@@ -30,7 +30,7 @@ async function authenticate({ email, password, ipAddress }) {
         throw 'Email or password is incorrect';
     }
 
-    // authentication successful so generate 
+    // authentication successful so generate jwt and refresh tokens
     const jwtToken = generateJwtToken(account);
     const refreshToken = generateRefreshToken(account, ipAddress);
 
@@ -64,7 +64,7 @@ async function refreshToken({ token, ipAddress }) {
     return {
         ...basicDetails(account),
         jwtToken,
-        refreshToken: refreshToken.token
+        refreshToken: newRefreshToken.token
     };
 }
 
@@ -92,7 +92,7 @@ async function register(params, origin) {
     account.role = isFirstAccount ? Role.Admin : Role.User;
     account.verificationToken = randomTokenString();
 
-    //hash password
+    // hash password
     account.passwordHash = await hash(params.password);
 
     // save account
@@ -113,7 +113,7 @@ async function verifyEmail({ token }) {
 }
 
 async function forgotPassword({ email }, origin) {
-    const account = await db.Account.findOne({ where: { email }});
+    const account = await db.Account.findOne({ where: { email } });
 
     // always return ok response to prevent email enumeration
     if (!account) return;
@@ -213,7 +213,7 @@ async function getAccount(id) {
 }
 
 async function getRefreshToken(token) {
-    const refreshToken = await db.refreshToken.findOne({ where: { token } });
+    const refreshToken = await db.RefreshToken.findOne({ where: { token } });
     if (!refreshToken || !refreshToken.isActive) throw 'Invalid token';
     return refreshToken;
 }
@@ -224,7 +224,7 @@ async function hash(password) {
 
 function generateJwtToken(account) {
     // create a jwt token containing the account id that expires in 15 minutes
-    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m' })
+    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m' });
 }
 
 function generateRefreshToken(account, ipAddress) {
@@ -253,7 +253,7 @@ async function sendVerificationEmail(account, origin) {
         message = `<p>Please click the below link to verify your email address:</p>
                    <p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
     } else {
-        message = `<p>Please use the below token to verify your email address with the <code>/account/verify-email</code> api route: </p>
+        message = `<p>Please use the below token to verify your email address with the <code>/account/verify-email</code> api route:</p>
                    <p><code>${account.verificationToken}</code></p>`;
     }
 
@@ -266,6 +266,23 @@ async function sendVerificationEmail(account, origin) {
     });
 }
 
+async function sendAlreadyRegisteredEmail(email, origin) {
+    let message;
+    if (origin) {
+        message = `<p>If you don't know your password please visit the <a href="${origin}/account/forgot-password">forgot password</a> page.</p>`;
+    } else {
+        message = `<p>If you don't know your password you can reset it via the <code>/account/forgot-password</code> api route.</p>`;
+    }
+
+    await sendEmail({
+        to: email,
+        subject: 'Sign-up Verification API - Email Already Registered',
+        html: `<h4>Email Already Registered</h4>
+               <p>Your email <strong>${email}</strong> is already registered.</p>
+               ${message}`
+    });
+}
+
 async function sendPasswordResetEmail(account, origin) {
     let message;
     if (origin) {
@@ -273,7 +290,7 @@ async function sendPasswordResetEmail(account, origin) {
         message = `<p>Please click the below link to reset your password, the link will be valid for 1 day:</p>
                    <p><a href="${resetUrl}">${resetUrl}</a></p>`;
     } else {
-        message = `<p>Please use the below token to reset your password with the <code>/account/reset-password</code> api route: </p>
+        message = `<p>Please use the below token to reset your password with the <code>/account/reset-password</code> api route:</p>
                    <p><code>${account.resetToken}</code></p>`;
     }
 

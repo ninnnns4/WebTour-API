@@ -25,16 +25,16 @@ function model(sequelize) {
     };
 
     const options = {
-      
-        timestamps: false,
+
+        timestamps: false, 
         defaultScope: {
-          
+
             attributes: { exclude: ['passwordHash'] }
         },
         scopes: {
-     
+
             withHash: { attributes: {}, }
-        }
+        }        
     };
 
     return sequelize.define('account', attributes, options);

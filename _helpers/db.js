@@ -22,7 +22,7 @@ async function initialize() {
     // define relationships
     db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
     db.RefreshToken.belongsTo(db.Account);
-
+    
     // sync all models with database
     await sequelize.sync();
 }
