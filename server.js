@@ -15,7 +15,7 @@ app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: 
 
 
 app.use('/accounts', require('./accounts/accounts.controller'));
-
+app.use('/foods', require('./foods/food.controller'));
 
 app.use('/api-docs', require('_helpers/swagger'));
 
