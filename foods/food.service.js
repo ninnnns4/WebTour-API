@@ -10,7 +10,7 @@ module.exports = {
 };
 function basicDetails(food) {
     const { id, title, description, picture} = food;
-    return { id, title, description, picture};
+    return { id, title, description, picture}; // Include picturePath in the returned object
 }
 
 async function getAll() {
