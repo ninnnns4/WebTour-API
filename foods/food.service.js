@@ -5,12 +5,14 @@ const { Op } = require('sequelize');
 module.exports = {
     getAll,
     getById,
-    getFoodTitle
-
+    getFoodTitle,
+    delete: _delete, // Add the delete method to the exports
+    update // Add the update method to the exports
 };
+
 function basicDetails(food) {
-    const { id, title, description, picture} = food;
-    return { id, title, description, picture};
+    const { id, title, description, picture } = food;
+    return { id, title, description, picture };
 }
 
 async function getAll() {
@@ -24,8 +26,23 @@ async function getById(id) {
 }
 
 async function getFoodTitle(title) {
-    const food = await db.Food.findOne({where: { title: title}});
+    const food = await db.Food.findOne({ where: { title: title } });
     if (!food) throw "Food not found";
+    return basicDetails(food);
+}
+
+async function _delete(id) {
+    const food = await getFood(id);
+    await food.destroy();
+}
+
+async function update(id, params) {
+    const food = await getFood(id);
+
+    // Copy params to food and save
+    Object.assign(food, params);
+    await food.save();
+
     return basicDetails(food);
 }
 
