@@ -6,8 +6,8 @@ module.exports = {
     getAll,
     getById,
     getFoodTitle,
-    delete: _delete, // Add the delete method to the exports
-    update // Add the update method to the exports
+    delete: _delete,
+    update
 };
 
 function basicDetails(food) {

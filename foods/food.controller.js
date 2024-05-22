@@ -38,13 +38,16 @@ function deleteFood(req, res, next) {
 }
 
 function updateFood(req, res, next) {
+    console.log('Received update request with body:', req.body); // Add this line
+
     // Validate request body
     const schema = Joi.object({
-        title: Joi.string(),
-        description: Joi.string()
+        title: Joi.string().required(),
+        description: Joi.string().required()
     });
     const { error, value } = schema.validate(req.body);
     if (error) {
+        console.log('Validation error:', error.details[0].message); // Add this line
         return res.status(400).json({ error: error.details[0].message });
     }
 
@@ -52,3 +55,4 @@ function updateFood(req, res, next) {
         .then(food => res.json(food))
         .catch(next);
 }
+
