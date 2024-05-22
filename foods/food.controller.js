@@ -8,6 +8,7 @@ const foodService = require('./food.service');
 router.get('/', getAllFoods);
 router.get('/:id', getFoodById);
 router.get('/food/:title', getFoodByTitle);
+router.post('/', createFood); 
 router.delete('/:id', deleteFood);
 router.put('/:id', updateFood);
 
@@ -52,6 +53,26 @@ function updateFood(req, res, next) {
     }
 
     foodService.update(req.params.id, value)
+        .then(food => res.json(food))
+        .catch(next);
+}
+
+
+function createFood(req, res, next) {
+    console.log('Received create request with body:', req.body); // Add this line
+
+    const schema = Joi.object({
+        title: Joi.string().required(),
+        description: Joi.string().required(),
+        picture: Joi.string().required()
+    });
+    const { error, value } = schema.validate(req.body);
+    if (error) {
+        console.log('Validation error:', error.details[0].message); // Add this line
+        return res.status(400).json({ error: error.details[0].message });
+    }
+
+    foodService.create(value)
         .then(food => res.json(food))
         .catch(next);
 }

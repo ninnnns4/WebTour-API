@@ -6,6 +6,7 @@ module.exports = {
     getAll,
     getById,
     getFoodTitle,
+    create,
     delete: _delete,
     update
 };
@@ -18,6 +19,12 @@ function basicDetails(food) {
 async function getAll() {
     const foods = await db.Food.findAll();
     return foods.map(x => basicDetails(x));
+}
+
+async function create(params) { 
+    const food = new db.Food(params);
+    await food.save();
+    return basicDetails(food);
 }
 
 async function getById(id) {
