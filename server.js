@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 
 app.use('/accounts', require('./accounts/accounts.controller'));
 app.use('/foods', require('./foods/food.controller'));
+app.use('/traditions', require('./traditions/tradition.controller'));
 
 app.use('/api-docs', require('_helpers/swagger'));
 
