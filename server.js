@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('_middleware/error-handler');
+const path = require('path'); // Import the path module
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,7 +19,7 @@ const corsOptions = {
     credentials: true
 };
 
-app.use(cors(corsOptions));
+app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
 
 // Log every request for debugging
 app.use((req, res, next) => {
@@ -29,6 +30,8 @@ app.use((req, res, next) => {
 app.use('/accounts', require('./accounts/accounts.controller'));
 app.use('/foods', require('./foods/food.controller'));
 app.use('/traditions', require('./traditions/tradition.controller'));
+app.use('/scavenger', require('./scavenger/scavenger.controller'));
+app.use('/feedbacks', require('./feedbacks/feedback.controller'));
 
 app.use('/api-docs', require('_helpers/swagger'));
 
