@@ -7,6 +7,7 @@ function model(sequelize) {
         title: { type: DataTypes.STRING, allowNull: false },
         description: { type: DataTypes.STRING, allowNull: false },
         picture: { type: DataTypes.STRING, allowNull: false },
+        date: { type: DataTypes.DATE, allowNull: false },
     };
     return sequelize.define('tradition', attributes);
 }

@@ -39,36 +39,37 @@ function deleteTradition(req, res, next) {
 }
 
 function updateTradition(req, res, next) {
-    console.log('Received update request with body:', req.body); // Add this line
-
-    // Validate request body
     const schema = Joi.object({
-        title: Joi.string().required(),
-        description: Joi.string().required()
+      title: Joi.string().required(),
+      description: Joi.string().required(),
+      picture: Joi.string().required(),
+      date: Joi.date().required()
     });
+  
     const { error, value } = schema.validate(req.body);
+  
     if (error) {
-        console.log('Validation error:', error.details[0].message); // Add this line
-        return res.status(400).json({ error: error.details[0].message });
+      return res.status(400).json({ error: error.details[0].message });
     }
-
+  
     traditionService.update(req.params.id, value)
-        .then(tradition => res.json(tradition))
-        .catch(next);
-}
-
+      .then(tradition => res.json(tradition))
+      .catch(next);
+  }
+  
 
 function createTradition(req, res, next) {
-    console.log('Received create request with body:', req.body); // Add this line
+    console.log('Received create request with body:', req.body); 
 
     const schema = Joi.object({
         title: Joi.string().required(),
         description: Joi.string().required(),
-        picture: Joi.string().required()
+        picture: Joi.string().required(),
+        date: Joi.date().required()
     });
     const { error, value } = schema.validate(req.body);
     if (error) {
-        console.log('Validation error:', error.details[0].message); // Add this line
+        console.log('Validation error:', error.details[0].message); 
         return res.status(400).json({ error: error.details[0].message });
     }
 
@@ -76,4 +77,3 @@ function createTradition(req, res, next) {
         .then(tradition => res.json(tradition))
         .catch(next);
 }
-

@@ -12,17 +12,17 @@ module.exports = {
 };
 
 function basicDetails(tradition) {
-    const { id, title, description, picture } = tradition;
-    return { id, title, description, picture };
+    const { id, title, description, picture, date } = tradition;
+    return { id, title, description, picture, date };
 }
 
 async function getAll() {
-    const traditions = await db.tradition.findAll();
+    const traditions = await db.Tradition.findAll();
     return traditions.map(x => basicDetails(x));
 }
 
-async function create(params) { 
-    const tradition = new db.tradition(params);
+async function create(params) {
+    const tradition = new db.Tradition(params);
     await tradition.save();
     return basicDetails(tradition);
 }
@@ -52,7 +52,7 @@ async function update(id, params) {
     return basicDetails(tradition);
 }
 
-//helpers
+// Helpers
 
 async function getTradition(id) {
     const tradition = await db.Tradition.findByPk(id);

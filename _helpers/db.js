@@ -19,12 +19,12 @@ async function initialize() {
     db.Account = require('../accounts/account.model')(sequelize);
     db.RefreshToken = require('../accounts/refresh-token.model')(sequelize);
     db.Food = require('../foods/food.model')(sequelize);
-    db.Tradition = require('../traditions/tradition.model')(sequelize);
+    db.Tradition = require('../traditions/tradition.model')(sequelize);  // Ensure correct path
 
     // define relationships
     db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
     db.RefreshToken.belongsTo(db.Account);
-    
+
     // sync all models with database
     await sequelize.sync();
 }
