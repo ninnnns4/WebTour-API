@@ -18,7 +18,8 @@ module.exports = router;
 function createSchema(req, res, next) {
     const schema = Joi.object({
         name: Joi.string().required(),
-        image: Joi.any().optional() // Optional for create, as multer handles it
+        image: Joi.any().optional(), // Optional for create, as multer handles it
+        lugar: Joi.string().required()
     });
     validateRequest(req, next, schema);
 }
@@ -50,7 +51,8 @@ function getById(req, res, next) {
 function updateSchema(req, res, next) {
     const schema = Joi.object({
         name: Joi.string().empty(''),
-        image: Joi.any().optional() // Optional for update, as multer handles it
+        image: Joi.any().optional(), // Optional for update, as multer handles it
+        lugar: Joi.string().required()
     });
     validateRequest(req, next, schema); 
 }
