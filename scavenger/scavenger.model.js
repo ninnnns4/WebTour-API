@@ -5,7 +5,8 @@ module.exports = model;
 function model(sequelize) {
     const attributes = {
         name: { type: DataTypes.STRING, allowNull: false },
-        image: { type: DataTypes.STRING, allowNull: true } // Change the type to STRING to store the image path
+        image: { type: DataTypes.STRING, allowNull: true },
+        lugar: { type: DataTypes.STRING, allowNull: false } // Change the type to STRING to store the image path
     };
 
     const options = {

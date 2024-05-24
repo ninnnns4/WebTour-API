@@ -37,5 +37,7 @@ app.use('/api-docs', require('_helpers/swagger'));
 
 app.use(errorHandler);
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 app.listen(port, () => console.log('Server listening on port ' + port));

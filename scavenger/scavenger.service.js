@@ -120,6 +120,6 @@ async function getScavenger(id) {
 }
 
 function basicDetails(scavenger) {
-    const { id, name, image } = scavenger;
-    return { id, name, image };
+    const { id, name, image, lugar } = scavenger;
+    return { id, name, image, lugar };
 }
