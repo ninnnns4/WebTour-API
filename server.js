@@ -18,6 +18,7 @@ app.use('/foods', require('./foods/food.controller'));
 app.use('/traditions', require('./traditions/tradition.controller'));
 app.use('/scavenger', require('./scavenger/scavenger.controller'));
 app.use('/feedbacks', require('./feedbacks/feedback.controller'));
+app.use('/legends', require('./locallegends/legends.controller'));
 
 app.use('/api-docs', require('_helpers/swagger'));
 

@@ -22,6 +22,7 @@ async function initialize() {
     db.Tradition = require('../traditions/tradition.model')(sequelize); 
     db.Scavenger = require('../scavenger/scavenger.model')(sequelize);  // Ensure correct path
     db.Feedback = require('../feedbacks/feedback.model')(sequelize); 
+    db.Legend = require('../locallegends/legends.model')(sequelize); 
 
     // define relationships
     db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
