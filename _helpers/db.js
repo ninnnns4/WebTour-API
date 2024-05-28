@@ -19,8 +19,8 @@ async function initialize() {
     db.Account = require('../accounts/account.model')(sequelize);
     db.RefreshToken = require('../accounts/refresh-token.model')(sequelize);
     db.Food = require('../foods/food.model')(sequelize);
-    db.Tradition = require('../traditions/tradition.model')(sequelize); 
-    db.Scavenger = require('../scavenger/scavenger.model')(sequelize);  // Ensure correct path
+    db.Tradition = require('../traditions/tradition.model')(sequelize); // this is the one i added
+    db.Scavenger = require('../scavenger/scavenger.model')(sequelize);  
     db.Feedback = require('../feedbacks/feedback.model')(sequelize); 
     db.Legend = require('../locallegends/legends.model')(sequelize); 
 
